@@ -5,8 +5,7 @@
     var chart = new minicharts[type](selector, data, options);
 
     // Container has been created
-    var actual = $(selector + " svg") != null
-    console.log(actual);
+    var actual = $(selector + " svg") != null;
     // It contains as many shapes as the length of the data
     var shapes = $(selector + " svg path");
     actual = actual && shapes.length == data.length;
@@ -155,7 +154,7 @@
 
       var chart = QUnit.assert.canCreateChart(type, this.el, this.data);
       chart.setOptions(opts);
-      
+
       var done = assert.async();
       setTimeout(function(){
         var shapes = assert.shapesAreVisible(self.el);

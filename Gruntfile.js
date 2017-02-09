@@ -50,12 +50,15 @@ module.exports = function(grunt) {
     watch: {
       source: {
         files: ["src/**/*"],
-        tasks: ['browserify', 'uglify']
+        tasks: ['browserify', 'uglify', "qunit:all"]
       },
       doc: {
         files: ["src/*", "README.md", "template/*", "examples/**"],
         tasks: ['jsdoc', "copy:doc"]
       }
+    },
+    qunit: {
+      all: ["tests/*.html"]
     }
   });
 
@@ -65,8 +68,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   // Default task(s).
-  grunt.registerTask('build', ['browserify', 'uglify']);
+  grunt.registerTask('build', ['browserify', 'uglify', "qunit:all"]);
   grunt.registerTask('doc', ['jsdoc', "copy:doc"]);
   grunt.registerTask('default', ['jsdoc', "copy:doc"]);
 
