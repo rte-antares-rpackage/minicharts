@@ -10,6 +10,7 @@
   }
 
   Piechart.prototype._processOptions = function(options) {
+    options = options || {};
     options.type = "angle";
     return Polarchart.prototype._processOptions.call(this, options);
   }

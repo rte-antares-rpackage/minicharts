@@ -10,10 +10,15 @@
 
   function Polarchart(el, data, options) {
     var defaults = {
-      type: "area"
+      type: "area",
+      maxValue: "auto",
     }
-    //debugger;
+
     Chart.call(this, el, data, options, defaults);
+
+    // Center the chart group inside the container
+    this._chart
+      .attr("transform", "translate(" + this._options.width/2 + "," + this._options.width/2 + ")");
 
     this._draw();
   }
@@ -24,13 +29,9 @@
     options.height = options.width;
 
     if (options.maxValue === "auto") {
-      var max = options.minValue === "auto"? d3.min(data): options.minValue;
-      var max = d3.max(data);
-
-      if (max < 0 && min < 0) options.maxValue = 0;
-      else options.maxValue = max;
+      options.maxValue = d3.max(this._data);
     }
-
+    //debugger;
     var radius = options.width / 2;
     var pie = d3.pie().sort(null);
     var arc = d3.arc().innerRadius(0);
@@ -45,7 +46,7 @@
         .domain([0, options.maxValue]);
       pie.value(function(d) {return 1});
     }
-    
+
     arc.outerRadius(function(d, i) {return radiusFun(d.data)});
 
     options.radius = radiusFun;

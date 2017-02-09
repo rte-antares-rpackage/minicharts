@@ -30,7 +30,9 @@
 
     // Remove everything in the container and create required elements
     d3.select(el).select("*").remove();
-    this._container = d3.select(el).append("svg");
+    this._container = d3.select(el).append("svg")
+      .attr("width", this._options.width)
+      .attr("height", this._options.height);
     this._chart = this._container.append("g");
   }
 
@@ -71,7 +73,7 @@
     if (options.labels === "none") {
       options.labelText = null;
     } else if (options.labels === "auto") {
-      options.labelText = utils.toFunction(utils.prettyNumbers(this._data));
+      options.labelText = utils.prettyNumber;
     }  else {
       options.labelText = utils.toFunction(options.labels);
     }

@@ -4,9 +4,7 @@
   module.exports.mergeOptions = mergeOptions;
   module.exports.toArray = toArray;
   module.exports.toFunction = toFunction;
-  module.exports.prettyNumbers = function(numbers) {
-    return numbers.map(prettyNumber);
-  }
+  module.exports.prettyNumber = prettyNumber;
 
   function mergeOptions(options, defaults) {
     options = options || {};
@@ -36,7 +34,7 @@
     var absVal = Math.abs(number);
     var sign= number < 0? "-": "";
     var scale;
-    
+
     if( absVal < 1000 ) {
         scale = '';
     } else if( absVal < 1000000 ) {
