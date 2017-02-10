@@ -1,7 +1,32 @@
 (function() {
   'use strict';
 
-  QUnit.assert.canCreateChart = function(type, selector, data, options) {
+  // Custom assert. Definitions below
+  QUnit.assert.canCreateChart = canCreateChart;
+  QUnit.assert.shapesAreVisible = shapesAreVisible;
+
+  // Counter used to create a new DOM element for each test. Results can then
+  // be visually inspected.
+  var idTest = 0;
+
+  // Perform some generic tests on each chart type.
+  testChart("Barchart");
+  testChart("Polarchart");
+  testChart("Piechart");
+
+  // HELPER METHODS
+  //----------------------------------------------------------------------------
+
+  /** Custom assert that creates a new chart and checks if it has been effectively
+    * added to the DOM.
+    * @param {string} type Class name of the chart to create
+    * @param {string} selector Css selector of the container element
+    * @param {number[]} data Data of the chart
+    * @param {Object} options Options of the chart
+    *
+    * @return Chart object
+    */
+  function canCreateChart(type, selector, data, options) {
     var chart = new minicharts[type](selector, data, options);
 
     // Container has been created
@@ -20,7 +45,13 @@
     return chart;
   }
 
-  QUnit.assert.shapesAreVisible = function(selector) {
+  /** Custom assert that checks if the shapes have really been created, ie. do
+    * they have a width and a height greater than 0.
+    * @param {string} selector Css selector of the chart container
+    *
+    * @return Array of SVG elements representing the data
+    */
+  function shapesAreVisible(selector) {
     // Each element has non null width and height (unless data is equal to zero)
     var shapes = $(selector + " svg path");
     var actual = true;
@@ -37,14 +68,9 @@
     return(shapes);
   }
 
-  // Counter used to create a new DOM element for each test. Results can then
-  // be visually inspected.
-  var idTest = 0;
-
-  testChart("Barchart");
-  testChart("Polarchart");
-  testChart("Piechart");
-
+  /** Launch a serie of generic tests for each chart type.
+    * @param {string} type Class name of the chart
+    */
   function testChart(type) {
     QUnit.module(type, {
       beforeEach: function() {
