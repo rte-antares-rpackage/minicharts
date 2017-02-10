@@ -17603,6 +17603,7 @@ else {
 })(Math);
 
 },{}],3:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -17735,6 +17736,7 @@ else {
 }());
 
 },{"./chart.js":4,"d3":1}],4:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -17861,6 +17863,7 @@ else {
 }());
 
 },{"./label.js":6,"./utils.js":10,"d3":1,"tinycolor2":2}],5:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -17912,6 +17915,7 @@ else {
 }());
 
 },{}],6:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -18071,6 +18075,7 @@ else {
 }());
 
 },{"./geometry.js":5,"d3":1}],7:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -18082,6 +18087,7 @@ else {
 }());
 
 },{"./barchart.js":3,"./piechart.js":8,"./polarchart.js":9}],8:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
   var Polarchart = require("./polarchart.js");
@@ -18103,6 +18109,7 @@ else {
 }());
 
 },{"./polarchart.js":9}],9:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -18230,6 +18237,7 @@ else {
 }());
 
 },{"./chart.js":4,"d3":1}],10:[function(require,module,exports){
+// Copyright © 2016 RTE Réseau de transport d’électricité
 (function() {
   'use strict';
 
@@ -18531,7 +18539,7 @@ else {
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
         }
         done();
-      }, 30);
+      }, 60);
     });
   }
 

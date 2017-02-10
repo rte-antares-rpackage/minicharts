@@ -193,7 +193,7 @@
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
         }
         done();
-      }, 30);
+      }, 60);
     });
   }
 

@@ -2,7 +2,7 @@
   "name": "minicharts",
   "version": "0.1.0",
   "description": "Easily create small dynamic charts",
-  "main": "dist/minicharts.js",
+  "main": "src/minicharts.js",
   "scripts": {
     "test": "grunt qunit:all"
   },
