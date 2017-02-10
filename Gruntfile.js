@@ -6,11 +6,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     browserify: {
-      options: {
-        browserifyOptions : {
-          debug: true
-        }
-      },
       dist: {
         files: {
           "dist/minicharts.js": ["src/minicharts.js"]
@@ -19,6 +14,9 @@ module.exports = function(grunt) {
       test: {
         files: {
           "tests/test.js": ["tests/src/*.js"]
+        },
+        options: {
+          debug: true
         }
       }
     },

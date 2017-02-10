@@ -92,7 +92,7 @@
       setTimeout(function(){
         var shapes = assert.shapesAreVisible(self.el);
         done();
-      }, 10);
+      }, 30);
     });
 
     QUnit.test( "Change colors", function( assert ) {
@@ -111,7 +111,7 @@
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
         }
         done();
-      }, 10);
+      }, 30);
     });
 
     QUnit.test( "Display labels", function( assert ) {
@@ -131,7 +131,7 @@
           assert.equal(labels[i].textContent, self.data[i]);
         }
         done();
-      }, 10);
+      }, 30);
     });
 
     QUnit.test( "Custom labels", function( assert ) {
@@ -151,7 +151,7 @@
           assert.equal(labels[i].textContent, opts.labels[i]);
         }
         done();
-      }, 10);
+      }, 30);
     });
 
     QUnit.test( "Update data", function( assert ) {
@@ -173,7 +173,7 @@
           assert.equal(labels[i].textContent, self.data[i]);
         }
         done();
-      }, 10);
+      }, 30);
     });
 
     QUnit.test( "Update options", function( assert ) {
