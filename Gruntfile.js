@@ -15,6 +15,11 @@ module.exports = function(grunt) {
         files: {
           "dist/minicharts.js": ["src/minicharts.js"]
         }
+      },
+      test: {
+        files: {
+          "tests/test.js": ["tests/src/*.js"]
+        }
       }
     },
     uglify: {
@@ -49,8 +54,8 @@ module.exports = function(grunt) {
     },
     watch: {
       source: {
-        files: ["src/**/*"],
-        tasks: ['browserify', 'uglify', "qunit:all"]
+        files: ["src/**/*", "tests/**/*"],
+        tasks: ['browserify:test', "qunit:all"]
       },
       doc: {
         files: ["src/*", "README.md", "template/*", "examples/**"],
@@ -72,6 +77,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('build', ['browserify', 'uglify', "qunit:all"]);
   grunt.registerTask('doc', ['jsdoc', "copy:doc"]);
-  grunt.registerTask('default', ['jsdoc', "copy:doc"]);
+  grunt.registerTask('default', ['watch:source']);
 
 };

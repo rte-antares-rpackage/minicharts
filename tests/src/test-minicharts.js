@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+  var minicharts = require("../../src/minicharts.js");
   // Custom assert. Definitions below
   QUnit.assert.canCreateChart = canCreateChart;
   QUnit.assert.shapesAreVisible = shapesAreVisible;
@@ -8,11 +9,13 @@
   // Counter used to create a new DOM element for each test. Results can then
   // be visually inspected.
   var idTest = 0;
-
+  
   // Perform some generic tests on each chart type.
-  testChart("Barchart");
-  testChart("Polarchart");
-  testChart("Piechart");
+  QUnit.module("minicharts", function() {
+    testChart("Barchart");
+    testChart("Polarchart");
+    testChart("Piechart");
+  });
 
   // HELPER METHODS
   //----------------------------------------------------------------------------

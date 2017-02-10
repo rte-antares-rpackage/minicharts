@@ -7,7 +7,8 @@
   module.exports.prettyNumber = prettyNumber;
 
   function mergeOptions(options, defaults) {
-    options = options || {};
+    if (options) options = JSON.parse(JSON.stringify(options));
+    else options = {};
     defaults = defaults || {};
     for (var opt in defaults) {
       if (defaults.hasOwnProperty(opt) && !options.hasOwnProperty(opt)) {
