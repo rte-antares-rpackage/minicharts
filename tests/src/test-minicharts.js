@@ -9,7 +9,7 @@
   // Counter used to create a new DOM element for each test. Results can then
   // be visually inspected.
   var idTest = 0;
-  
+
   // Perform some generic tests on each chart type.
   QUnit.module("minicharts", function() {
     testChart("Barchart");
@@ -92,7 +92,7 @@
       setTimeout(function(){
         var shapes = assert.shapesAreVisible(self.el);
         done();
-      }, 750);
+      }, 10);
     });
 
     QUnit.test( "Change colors", function( assert ) {
@@ -111,7 +111,7 @@
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
         }
         done();
-      }, 750);
+      }, 10);
     });
 
     QUnit.test( "Display labels", function( assert ) {
@@ -131,7 +131,7 @@
           assert.equal(labels[i].textContent, self.data[i]);
         }
         done();
-      }, 750);
+      }, 10);
     });
 
     QUnit.test( "Custom labels", function( assert ) {
@@ -151,7 +151,7 @@
           assert.equal(labels[i].textContent, opts.labels[i]);
         }
         done();
-      }, 750);
+      }, 10);
     });
 
     QUnit.test( "Update data", function( assert ) {
@@ -173,7 +173,7 @@
           assert.equal(labels[i].textContent, self.data[i]);
         }
         done();
-      }, 750);
+      }, 10);
     });
 
     QUnit.test( "Update options", function( assert ) {
@@ -182,7 +182,7 @@
         colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data);
+      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, {transitionTime: 10});
       chart.setOptions(opts);
 
       var done = assert.async();
@@ -193,7 +193,7 @@
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
         }
         done();
-      }, 750);
+      }, 30);
     });
   }
 
