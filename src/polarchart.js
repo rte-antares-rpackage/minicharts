@@ -7,6 +7,7 @@
   module.exports = Polarchart;
 
   Polarchart.prototype = Object.create(Chart.prototype);
+  Polarchart.prototype.constructor = Polarchart;
 
   function Polarchart(el, data, options) {
     var defaults = {

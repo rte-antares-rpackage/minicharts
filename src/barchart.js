@@ -8,6 +8,7 @@
 
   // Barchart inherits from Chart
   Barchart.prototype = Object.create(Chart.prototype);
+  Barchart.prototype.constructor = Barchart;
 
   function Barchart(el, data, options) {
     // Default options

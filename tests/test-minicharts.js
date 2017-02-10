@@ -83,7 +83,8 @@
 
     QUnit.test( "Create chart without options", function( assert ) {
       var self = this;
-      QUnit.assert.canCreateChart(type, this.el, this.data);
+      var chart = QUnit.assert.canCreateChart(type, this.el, this.data);
+      assert.equal(chart.constructor, minicharts[type]);
       var done = assert.async();
       setTimeout(function(){
         var shapes = assert.shapesAreVisible(self.el);

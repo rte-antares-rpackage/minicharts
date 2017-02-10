@@ -4,6 +4,7 @@
   module.exports = Piechart;
 
   Piechart.prototype = Object.create(Polarchart.prototype);
+  Piechart.prototype.constructor = Piechart;
 
   function Piechart(el, data, options) {
     Polarchart.call(this, el, data, options);
