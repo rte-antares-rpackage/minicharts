@@ -4,11 +4,13 @@
 
 ![](img/example.gif)
 
+Try it on [JsFiddle](https://jsfiddle.net/fguillem/paar6yeg/).
+
 ## Usage
 
 First include the script in your html pages:
 ```xml
-<script src="minicharts.min.js"></script>
+<script src="https://unpkg.com/minicharts@0.1.1/dist/minicharts.min.js"></script>
 ```
 This adds a global object called `minicharts`. Alternatively you can install the library with `npm` and use it with:
 ```javascript
@@ -25,6 +27,7 @@ In your javascript, create the desired chart:
 var mychart = new minicharts.Barchart("#mychart", [1, 2, 3]);
 ```
 ![](img/barchart.png)
+
 ## Customize your charts
 For now three chart types are available: `Barchart`, `Piechart` and `Polarchart`. Their constructor take the same parameters:
 * A CSS selector
@@ -42,6 +45,7 @@ var opts = {
 var mychart = new minicharts.Polarchart("#mychart", [1, 2, 3], opts);
 ```
 ![](img/custom_polarchart.png)
+
 ## Update a chart
 
 Charts object have methods `setData` and `setOptions` to update respectively data and graphical options. Here is the code use to generate the example at the top of the document:
@@ -56,11 +60,11 @@ var opts = {
 
 function fakeData(n) {
   var res = [];
-  for (var i = 0; i < n; i++) res.push(Math.random(*100));
+  for (var i = 0; i < n; i++) res.push(Math.random() * 100);
   return res;
 }
 
-var mychart = minicharts.Barchart("#mychart", fakeData(6), opts);
+var mychart = new minicharts.Barchart("#mychart", fakeData(6), opts);
 setInterval(function(){mychart.setData(fakeData(6))}, 1000);
 ```
 
