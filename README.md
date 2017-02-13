@@ -2,11 +2,20 @@
 
 `minicharts.js` is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.
 
-<div id="mychart">
 ![](img/example.gif)
+<div id="mychart">
 </div>
 <script src="minicharts.min.js"></script>
 <script>
+// Remove image
+var images = document.getElementsByTagName("img");
+for (var i = 0; i < images.length; i++) {
+  if (images[i].src.indexOf("img/example.gif") != -1) {
+    images[i].parentNode.removeChild(images[i]);
+    break;
+  }
+}
+
 var opts = {
   width:360,
   height:120,
