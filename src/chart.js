@@ -9,10 +9,31 @@
 
   module.exports = Chart;
 
+  /*  @class Chart
+    * Abstract class inherited by other classes
+    * @param{string} el
+    * @param{number[]} data
+    * @param {object} options
+    * @param {object} defaults
+    *
+    */
   function Chart(el, data, options, defaults) {
     this._data = data;
 
     // Merge options with default options of this class and of the child class
+    /**
+    * @prop {number} [height=60] width
+    * @prop {number} [width=60] height
+    * @prop {number} [transitionTime=750] transitionTime
+    * @prop {string[]|function} [colors=d3.schemeCategory10] colors
+    * @prop {string[]|"none"|"auto"|function} [labels="none"] labels
+    * @prop {string[]|"auto"|function} [labelColors="auto"] labelColors
+    * @prop {number} [labelMinSize=8] labelMinSize
+    * @prop {number} [labelMaxSize=24] labelMaxSize
+    * @prop {number} [labelPadding=2] labelPadding
+    * @prop {labelClass} [labelClass=""]labelClass
+    * @prop {shapeClass} [shapeClass=""] shapeClass
+    */
     this._options = {
       width:60,
       height: 60,
@@ -37,6 +58,9 @@
     this._chart = this._container.append("g");
   }
 
+  /*  Update data and options of a chart
+    *
+    */
   Chart.prototype.update = function(data, options) {
     this._data = data;
     this._options = this._processOptions(options);

@@ -36,7 +36,7 @@ module.exports = function(grunt) {
             options: {
                 destination: 'docs',
                 template: "template",
-                tutorials: "examples",
+                //tutorials: "examples",
                 readme: "README.md"
             }
         }
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       doc: {
         files: [
           {expand: true, src: "img/*", dest: "docs/"},
-          {expand: true, cwd: "examples", src: "js/*", dest: "docs/"},
+          //{expand: true, cwd: "examples", src: "js/*", dest: "docs/"},
           {expand: true, cwd: "dist", src: "*", dest: "docs/"},
         ]
       }

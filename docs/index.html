@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>leaflet.d3chart Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.sandstone.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">leaflet.d3chart</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Reference<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Barchart.html">Barchart</a></li><li><a href="Piechart.html">Piechart</a></li><li><a href="Polarchart.html">Polarchart</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>minicharts.js: easily add mini animated charts</h1><p><code>minicharts.js</code> is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.</p>
+<p><img src="img/example.gif" alt=""></p>
+<p>Try it on <a href="https://jsfiddle.net/fguillem/paar6yeg/">JsFiddle</a>.</p>
+<h2>Usage</h2><p>First include the script in your html pages:</p>
+<pre class="prettyprint source lang-xml"><code>&lt;script src=&quot;https://unpkg.com/minicharts@0.1.1/dist/minicharts.min.js&quot;>&lt;/script></code></pre><p>This adds a global object called <code>minicharts</code>. Alternatively you can install the library with <code>npm</code> and use it with:</p>
+<pre class="prettyprint source lang-javascript"><code>var minicharts = require(minicharts);</code></pre><p>Next add to your html an element that will contain the chart and that can be easily selected with a CSS selector. For instance:</p>
+<pre class="prettyprint source lang-xml"><code>&lt;span id=&quot;mychart&quot;>&lt;/span></code></pre><p>In your javascript, create the desired chart:</p>
+<pre class="prettyprint source lang-javascript"><code>var mychart = new minicharts.Barchart(&quot;#mychart&quot;, [1, 2, 3]);</code></pre><p><img src="img/barchart.png" alt=""></p>
+<h2>Customize your charts</h2><p>For now three chart types are available: <code>Barchart</code>, <code>Piechart</code> and <code>Polarchart</code>. Their constructor take the same parameters:</p>
+<ul>
+<li>A CSS selector</li>
+<li>An array containing values to represent</li>
+<li>An optional object containing graphical options for your chart like width, height, colors, etc.</li>
+</ul>
+<p>Here is an example:</p>
+<pre class="prettyprint source lang-javascript"><code>var opts = {
+  colors: [&quot;#2B303A&quot;, &quot;#92DCE5&quot;, &quot;#EEE5E9&quot;],
+  width:100,
+  labels: &quot;auto&quot;,
+  maxValue: 3 // Important if you want to compare charts
+};
+var mychart = new minicharts.Polarchart(&quot;#mychart&quot;, [1, 2, 3], opts);</code></pre><p><img src="img/custom_polarchart.png" alt=""></p>
+<h2>Update a chart</h2><p>Charts object have methods <code>setData</code> and <code>setOptions</code> to update respectively data and graphical options. Here is the code use to generate the example at the top of the document:</p>
+<pre class="prettyprint source lang-javascript"><code>var opts = {
+  width:360,
+  height:120,
+  labels: &quot;auto&quot;,
+  maxValue: 100
+};
+
+function fakeData(n) {
+  var res = [];
+  for (var i = 0; i &lt; n; i++) res.push(Math.random() * 100);
+  return res;
+}
+
+var mychart = new minicharts.Barchart(&quot;#mychart&quot;, fakeData(6), opts);
+setInterval(function(){mychart.setData(fakeData(6))}, 1000);</code></pre><h2>Contributing:</h2><p>Contributions to the library are welcome and can be submitted in the form of pull requests to this repository.</p>
+<h2>License Information:</h2><p>Copyright 2015-2016 RTE (France)</p>
+<ul>
+<li>RTE: http://www.rte-france.com</li>
+</ul>
+<p>This Source Code is subject to the terms of the GNU General Public License, version 2 or any higher version. If a copy of the GPL-v2 was not distributed with this file, You can obtain one at https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html.</p>
+<p>The minicharts library includes code of other open-source libraries (full copies of the license agreements used by these components are in the LICENCE file):</p>
+<ul>
+<li>d3, https://github.com/d3/d3</li>
+<li>tinycolor2, https://github.com/bgrins/TinyColor</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on 2017-02-13T16:06:52+01:00
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : false,
+		showMenu : false,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

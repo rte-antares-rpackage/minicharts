@@ -10,6 +10,77 @@
   Polarchart.prototype = Object.create(Chart.prototype);
   Polarchart.prototype.constructor = Polarchart;
 
+  /**
+    * @class Polarchart
+    * @summary Represent data with a polar chart
+    * @desc Polar charts are nice looking charts especially on a map,
+    * but individual values are hard to compare
+    * on these charts: the human eye is good to compare lengths, but not
+    * to compare agnles, radius or areas. Polar charts should only be used when
+    * one wants to point out qualitative results and does not need a precise
+    * representation of data. Another limitation compared to barcharts is that
+    * polar charts cannot represent negative values.
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} PolarchartOptions
+    * @memberOf Polarchart
+    * @prop {number|"auto"} [maxValue="auto"] Maximum value data could take.It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default it equals to the
+    * maximum value of the data.
+    * @prop {"area"|"radius"|"angle"} [type="area"] What kind of scale to use to
+    * represent the data? `angle` produces a pie chart and should be used only to visualize
+    * proportions. In other cases, `area` (the default) should generally be
+    * prefered. `radius` should only be used when one wants to magnify differences.
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in slices.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the slice.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] slices CSS class.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a polar chart.
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
   function Polarchart(el, data, options) {
     var defaults = {
       type: "area",
