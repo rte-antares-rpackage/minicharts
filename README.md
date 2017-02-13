@@ -2,7 +2,7 @@
 
 `minicharts.js` is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.
 
-<div id="mychart" style="margin:auto;">
+<div id="mychart">
 ![](img/example.gif)
 </div>
 <script src="minicharts.min.js"></script>
@@ -24,7 +24,8 @@ var mychart = new minicharts.Barchart("#mychart", fakeData(6), opts);
 setInterval(function(){mychart.setData(fakeData(6))}, 1000);
 </script>
 
-Try it on [JsFiddle](https://jsfiddle.net/fguillem/paar6yeg/).
+The full documentation is available [here](https://rte-antares-rpackage.github.io/minicharts/index.html).
+You can also test the library on [JsFiddle](https://jsfiddle.net/fguillem/paar6yeg/).
 
 ## Usage
 
@@ -49,7 +50,7 @@ var mychart = new minicharts.Barchart("#mychart", [1, 2, 3]);
 ![](img/barchart.png)
 
 ## Customize your charts
-For now three chart types are available: `Barchart`, `Piechart` and `Polarchart`. Their constructor take the same parameters:
+For now three chart types are available: [`Barchart`](https://rte-antares-rpackage.github.io/minicharts/Barchart.html), [`Piechart`](https://rte-antares-rpackage.github.io/minicharts/Piechart.html) and [`Polarchart`](https://rte-antares-rpackage.github.io/minicharts/Polarchart.html). Their constructor take the same parameters:
 * A CSS selector
 * An array containing values to represent
 * An optional object containing graphical options for your chart like width, height, colors, etc.
