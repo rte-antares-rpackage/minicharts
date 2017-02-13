@@ -2,7 +2,27 @@
 
 `minicharts.js` is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.
 
+<div id="mychart" style="margin:auto;">
 ![](img/example.gif)
+</div>
+<script src="minicharts.min.js"></script>
+<script>
+var opts = {
+  width:360,
+  height:120,
+  labels: "auto",
+  maxValue: 100
+};
+
+function fakeData(n) {
+  var res = [];
+  for (var i = 0; i < n; i++) res.push(Math.random() * 100);
+  return res;
+}
+
+var mychart = new minicharts.Barchart("#mychart", fakeData(6), opts);
+setInterval(function(){mychart.setData(fakeData(6))}, 1000);
+</script>
 
 Try it on [JsFiddle](https://jsfiddle.net/fguillem/paar6yeg/).
 
@@ -19,7 +39,7 @@ var minicharts = require(minicharts);
 
 Next add to your html an element that will contain the chart and that can be easily selected with a CSS selector. For instance:
 ```xml
-<span id="mychart></span>"></span>
+<span id="mychart"></span>
 ```
 
 In your javascript, create the desired chart:
