@@ -10,8 +10,6 @@
   module.exports.intersectionLineRadius  = intersectionLineRadius ;
   module.exports.distance = distance;
 
-  window.g = module.exports;
-
   function Point(x, y) {
     this.x = x;
     this.y = y;
@@ -33,10 +31,12 @@
     )]
   }
 
-  function intersectionLineRadius(l1, l2, radius) {
-    var intersect = intersectionOfTwoLines(l1, l2);
+  function intersectionLineRadius(l, angle, radius) {
+    var l2 = new Line(0, Math.tan(angle));
+    var intersect = intersectionOfTwoLines(l, l2);
     var s1 = new Point(0, 0);
-    var s2 = new Point(radius, l2.getY(-radius));
+    var s2 = new Point(radius * Math.cos(angle), radius * Math.sin(angle));
+
     if (intersect.length == 0 || !pointInSegment(intersect[0], s1, s2)) {
       return [];
     } else {

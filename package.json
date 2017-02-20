@@ -1,6 +1,6 @@
 {
   "name": "minicharts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Easily create small dynamic charts",
   "main": "src/minicharts.js",
   "scripts": {

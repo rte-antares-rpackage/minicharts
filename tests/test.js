@@ -17973,8 +17973,6 @@ else {
   module.exports.intersectionLineRadius  = intersectionLineRadius ;
   module.exports.distance = distance;
 
-  window.g = module.exports;
-
   function Point(x, y) {
     this.x = x;
     this.y = y;
@@ -17996,10 +17994,12 @@ else {
     )]
   }
 
-  function intersectionLineRadius(l1, l2, radius) {
-    var intersect = intersectionOfTwoLines(l1, l2);
+  function intersectionLineRadius(l, angle, radius) {
+    var l2 = new Line(0, Math.tan(angle));
+    var intersect = intersectionOfTwoLines(l, l2);
     var s1 = new Point(0, 0);
-    var s2 = new Point(radius, l2.getY(-radius));
+    var s2 = new Point(radius * Math.cos(angle), radius * Math.sin(angle));
+
     if (intersect.length == 0 || !pointInSegment(intersect[0], s1, s2)) {
       return [];
     } else {
@@ -18186,11 +18186,11 @@ else {
 
     // Get all intersection points
     var intersects = [];
-    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit1, radius));
-    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit2, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, d.startAngle - Math.PI/2, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, d.endAngle - Math.PI/2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag1, radius));
-    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit1, radius));
-    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit2, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, d.startAngle - Math.PI/2, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, d.endAngle - Math.PI/2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag2, radius));
 
     // Compute distance between all these points and take the minimum
@@ -18622,12 +18622,12 @@ else {
     testChart("Piechart");
     // Labels on pie chart when one slice is larger than 50% (#1)
     QUnit.test("Label displayed on pie chart with one large value", function(assert) {
-      var chart = QUnit.assert.canCreateChart("Piechart", [100, 10], {labels: "auto"});
+      var chart = QUnit.assert.canCreateChart("Piechart", [100, 1000], {labels: "auto"});
       var done = assert.async();
       setTimeout(function(){
         var labels = $(chart.el + " svg .labels-container");
-        assert.ok(labels[0].getBBox().height > 0);
-        assert.ok(labels[1].getBBox().height == 0);
+        assert.ok(labels[0].getBBox().height == 0);
+        assert.ok(labels[1].getBBox().height > 0);
         done();
       }, 30);
     });
