@@ -17616,6 +17616,77 @@ else {
   Barchart.prototype = Object.create(Chart.prototype);
   Barchart.prototype.constructor = Barchart;
 
+  /**
+    * @class Barchart
+    * @summary Represent data with a barchart
+    * @desc Barcharts are polyvalent charts that should be used most of the time.
+    * In a barchart individual value are visually easy to compare because the
+    * human eye is good at comparing lengths. Moreover barcharts can represent
+    * negative values while polar charts can only represent positive values; 
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} BarchartOptions
+    * @memberOf Barchart
+    * @prop {number|"auto"} [minValue="auto"] Minimum value data could take. It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default `minValue` equals to 0
+    * if all data values are positive or the minimum value if some values are
+    * negative.
+    * @prop {number|"auto"} [maxValue="auto"] Maximum value data could take.It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default it equals to 0 if all
+    * values are negative or to maximmum value if some value is positive.
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in bars.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the bar.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {number}[labelPadding=2] Padding to apply to apply to labels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] bars CSS class.
+    * @prop {string}[zeroLineStyle="stroke:#333;stroke-width:1;"] CSS style of the
+    * line representing the zero value.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Barchart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Barchart
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a barchart.
+    * @instance
+    * @memberOf Barchart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
   function Barchart(el, data, options) {
     // Default options
     var defaults = {
@@ -17642,6 +17713,7 @@ else {
     this._draw();
   }
 
+  // See comments in chart.js
   Barchart.prototype._processOptions = function(options) {
     options = Chart.prototype._processOptions.call(this, options, this._options);
 
@@ -17665,6 +17737,7 @@ else {
     return options;
   };
 
+  // See comments in chart.js
   Barchart.prototype._draw = function() {
     var self = this;
     Chart.prototype._draw.call(this);
@@ -17733,6 +17806,7 @@ else {
 
     this._drawLabels(initLabel, updateLabel);
   }
+
 }());
 
 },{"./chart.js":4,"d3":1}],4:[function(require,module,exports){
@@ -17747,10 +17821,31 @@ else {
 
   module.exports = Chart;
 
+  /*  @class Chart
+    * Abstract class inherited by other classes
+    * @param{string} el
+    * @param{number[]} data
+    * @param {object} options
+    * @param {object} defaults
+    *
+    */
   function Chart(el, data, options, defaults) {
     this._data = data;
 
     // Merge options with default options of this class and of the child class
+    /**
+    * @prop {number} [height=60] width
+    * @prop {number} [width=60] height
+    * @prop {number} [transitionTime=750] transitionTime
+    * @prop {string[]|function} [colors=d3.schemeCategory10] colors
+    * @prop {string[]|"none"|"auto"|function} [labels="none"] labels
+    * @prop {string[]|"auto"|function} [labelColors="auto"] labelColors
+    * @prop {number} [labelMinSize=8] labelMinSize
+    * @prop {number} [labelMaxSize=24] labelMaxSize
+    * @prop {number} [labelPadding=2] labelPadding
+    * @prop {labelClass} [labelClass=""]labelClass
+    * @prop {shapeClass} [shapeClass=""] shapeClass
+    */
     this._options = {
       width:60,
       height: 60,
@@ -17775,6 +17870,9 @@ else {
     this._chart = this._container.append("g");
   }
 
+  /*  Update data and options of a chart
+    *
+    */
   Chart.prototype.update = function(data, options) {
     this._data = data;
     this._options = this._processOptions(options);
@@ -18096,6 +18194,65 @@ else {
   Piechart.prototype = Object.create(Polarchart.prototype);
   Piechart.prototype.constructor = Piechart;
 
+  /**
+    * @class Piechart
+    * @summary Represent data with a pie chart
+    * @desc A pie chart is a special case of polar chart where the data values
+    * are represented by the angle of the slices. They should only be used to
+    * compare qualitatively proportions and compositions. Indeed, human eye is
+    * not good at comparing angles so only large differences are visible.
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} PiechartOptions
+    * @memberOf Piechart
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in slices.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the slice.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] slices CSS class.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Piechart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Piechart
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a pie chart.
+    * @instance
+    * @memberOf Piechart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
   function Piechart(el, data, options) {
     Polarchart.call(this, el, data, options);
   }
@@ -18120,6 +18277,77 @@ else {
 
   Polarchart.prototype = Object.create(Chart.prototype);
   Polarchart.prototype.constructor = Polarchart;
+
+  /**
+    * @class Polarchart
+    * @summary Represent data with a polar chart
+    * @desc Polar charts are nice looking charts especially on a map,
+    * but individual values are hard to compare
+    * on these charts: the human eye is good to compare lengths, but not
+    * to compare agnles, radius or areas. Polar charts should only be used when
+    * one wants to point out qualitative results and does not need a precise
+    * representation of data. Another limitation compared to barcharts is that
+    * polar charts cannot represent negative values.
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} PolarchartOptions
+    * @memberOf Polarchart
+    * @prop {number|"auto"} [maxValue="auto"] Maximum value data could take.It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default it equals to the
+    * maximum value of the data.
+    * @prop {"area"|"radius"|"angle"} [type="area"] What kind of scale to use to
+    * represent the data? `angle` produces a pie chart and should be used only to visualize
+    * proportions. In other cases, `area` (the default) should generally be
+    * prefered. `radius` should only be used when one wants to magnify differences.
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in slices.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the slice.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] slices CSS class.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a polar chart.
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
 
   function Polarchart(el, data, options) {
     var defaults = {
@@ -18358,9 +18586,33 @@ else {
 
   // Perform some generic tests on each chart type.
   QUnit.module("minicharts", function() {
-    testChart("Barchart");
     testChart("Polarchart");
     testChart("Piechart");
+    testChart("Barchart");
+
+    // Check negative values are correctly handled by barcharts
+    QUnit.test("Create barchart with negative values", function(assert) {
+      var chart = QUnit.assert.canCreateChart("Barchart", [-1, 2, 3]);
+    });
+
+    QUnit.test("can set minValue and maxValue", function(assert) {
+      var chart = QUnit.assert.canCreateChart(
+        "Barchart",
+        [0, 0.5, 1],
+        {minValue: -2, maxValue:2, transitionTime: 0}
+      );
+      var done = assert.async();
+      setTimeout(function(){
+        var shapes = assert.shapesAreVisible(chart.el);
+        assert.equal(shapes[0].getBBox().height, 0);
+        assert.equal(shapes[1].getBBox().height, 7.5);
+        assert.equal(shapes[2].getBBox().height, 15);
+
+        var zeroline = $(chart.el + " line")[0];
+        assert.equal("30", zeroline.attributes.y1.value);
+        done();
+      }, 30);
+    })
   });
 
   // HELPER METHODS
@@ -18375,9 +18627,13 @@ else {
     *
     * @return Chart object
     */
-  function canCreateChart(type, selector, data, options) {
-    var chart = new minicharts[type](selector, data, options);
+  function canCreateChart(type, data, options) {
+    $("#test-area").append("<span id='chart" + idTest + "'></span>");
+    var selector = "#chart" + idTest;
+    idTest ++;
 
+    var chart = new minicharts[type](selector, data, options);
+    chart.el = selector;
     // Container has been created
     var actual = $(selector + " svg") != null;
     // It contains as many shapes as the length of the data
@@ -18424,19 +18680,16 @@ else {
     QUnit.module(type, {
       beforeEach: function() {
         this.data = [1,2,3];
-        $("#test-area").append("<span id='chart" + idTest + "'></span>");
-        this.el = "#chart" + idTest;
-        idTest ++;
       }
     });
 
     QUnit.test( "Create chart without options", function( assert ) {
       var self = this;
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data);
+      var chart = QUnit.assert.canCreateChart(type, this.data);
       assert.equal(chart.constructor, minicharts[type]);
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         done();
       }, 30);
     });
@@ -18447,11 +18700,11 @@ else {
         colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         assert.equal(shapes.length, self.data.length);
         for (var i = 0; i < shapes.length; i++) {
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
@@ -18466,12 +18719,12 @@ else {
         labels: "auto"
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, self.data[i]);
@@ -18486,12 +18739,12 @@ else {
         labels: ["a", "b", "c"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, opts.labels[i]);
@@ -18506,14 +18759,14 @@ else {
         labels: "auto"
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
       self.data = [3,2,1];
       chart.setData(self.data);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, self.data[i]);
@@ -18528,12 +18781,12 @@ else {
         colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, {transitionTime: 10});
+      var chart = QUnit.assert.canCreateChart(type, this.data, {transitionTime: 10});
       chart.setOptions(opts);
 
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         assert.equal(shapes.length, self.data.length);
         for (var i = 0; i < shapes.length; i++) {
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);

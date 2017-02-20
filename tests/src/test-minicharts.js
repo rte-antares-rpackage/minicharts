@@ -12,9 +12,33 @@
 
   // Perform some generic tests on each chart type.
   QUnit.module("minicharts", function() {
-    testChart("Barchart");
     testChart("Polarchart");
     testChart("Piechart");
+    testChart("Barchart");
+
+    // Check negative values are correctly handled by barcharts
+    QUnit.test("Create barchart with negative values", function(assert) {
+      var chart = QUnit.assert.canCreateChart("Barchart", [-1, 2, 3]);
+    });
+
+    QUnit.test("can set minValue and maxValue", function(assert) {
+      var chart = QUnit.assert.canCreateChart(
+        "Barchart",
+        [0, 0.5, 1],
+        {minValue: -2, maxValue:2, transitionTime: 0}
+      );
+      var done = assert.async();
+      setTimeout(function(){
+        var shapes = assert.shapesAreVisible(chart.el);
+        assert.equal(shapes[0].getBBox().height, 0);
+        assert.equal(shapes[1].getBBox().height, 7.5);
+        assert.equal(shapes[2].getBBox().height, 15);
+
+        var zeroline = $(chart.el + " line")[0];
+        assert.equal("30", zeroline.attributes.y1.value);
+        done();
+      }, 30);
+    })
   });
 
   // HELPER METHODS
@@ -29,9 +53,13 @@
     *
     * @return Chart object
     */
-  function canCreateChart(type, selector, data, options) {
-    var chart = new minicharts[type](selector, data, options);
+  function canCreateChart(type, data, options) {
+    $("#test-area").append("<span id='chart" + idTest + "'></span>");
+    var selector = "#chart" + idTest;
+    idTest ++;
 
+    var chart = new minicharts[type](selector, data, options);
+    chart.el = selector;
     // Container has been created
     var actual = $(selector + " svg") != null;
     // It contains as many shapes as the length of the data
@@ -78,19 +106,16 @@
     QUnit.module(type, {
       beforeEach: function() {
         this.data = [1,2,3];
-        $("#test-area").append("<span id='chart" + idTest + "'></span>");
-        this.el = "#chart" + idTest;
-        idTest ++;
       }
     });
 
     QUnit.test( "Create chart without options", function( assert ) {
       var self = this;
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data);
+      var chart = QUnit.assert.canCreateChart(type, this.data);
       assert.equal(chart.constructor, minicharts[type]);
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         done();
       }, 30);
     });
@@ -101,11 +126,11 @@
         colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         assert.equal(shapes.length, self.data.length);
         for (var i = 0; i < shapes.length; i++) {
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
@@ -120,12 +145,12 @@
         labels: "auto"
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, self.data[i]);
@@ -140,12 +165,12 @@
         labels: ["a", "b", "c"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, opts.labels[i]);
@@ -160,14 +185,14 @@
         labels: "auto"
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, opts);
+      var chart = QUnit.assert.canCreateChart(type, this.data, opts);
       self.data = [3,2,1];
       chart.setData(self.data);
 
       var done = assert.async();
       setTimeout(function(){
-        assert.shapesAreVisible(self.el);
-        var labels = $(self.el + " svg .label text");
+        assert.shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
         assert.equal(labels.length, self.data.length);
         for (var i = 0; i < labels.length; i++) {
           assert.equal(labels[i].textContent, self.data[i]);
@@ -182,12 +207,12 @@
         colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
       }
 
-      var chart = QUnit.assert.canCreateChart(type, this.el, this.data, {transitionTime: 10});
+      var chart = QUnit.assert.canCreateChart(type, this.data, {transitionTime: 10});
       chart.setOptions(opts);
 
       var done = assert.async();
       setTimeout(function(){
-        var shapes = assert.shapesAreVisible(self.el);
+        var shapes = assert.shapesAreVisible(chart.el);
         assert.equal(shapes.length, self.data.length);
         for (var i = 0; i < shapes.length; i++) {
           assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
