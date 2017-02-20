@@ -140,11 +140,11 @@
 
     // Get all intersection points
     var intersects = [];
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag1, radius));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag2, radius));
 
     // Compute distance between all these points and take the minimum

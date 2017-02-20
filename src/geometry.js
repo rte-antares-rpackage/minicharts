@@ -4,9 +4,13 @@
 
   module.exports.Point = Point;
   module.exports.Line = Line;
-  module.exports.intersectionOfTwoLines = intersectionOfTwoLines
-  module.exports.intersectionLineAndCircle = intersectionLineAndCircle
-  module.exports.distance = distance
+  module.exports.intersectionOfTwoLines = intersectionOfTwoLines;
+  module.exports.intersectionLineAndCircle = intersectionLineAndCircle;
+  module.exports.pointInSegment = pointInSegment;
+  module.exports.intersectionLineRadius  = intersectionLineRadius ;
+  module.exports.distance = distance;
+
+  window.g = module.exports;
 
   function Point(x, y) {
     this.x = x;
@@ -29,9 +33,36 @@
     )]
   }
 
+  function intersectionLineRadius(l1, l2, radius) {
+    var intersect = intersectionOfTwoLines(l1, l2);
+    var s1 = new Point(0, 0);
+    var s2 = new Point(radius, l2.getY(-radius));
+    if (intersect.length == 0 || !pointInSegment(intersect[0], s1, s2)) {
+      return [];
+    } else {
+      return intersect;
+    }
+  }
+
   function intersectionLineAndCircle(l, r) {
     var x = solveEqSecondDegree(l.b * l.b + 1, 2 * l.a * l.b, l.a * l.a - r * r);
     return x.map(function(x) {return new Point(x, l.getY(x))});
+  }
+
+  // Is point p inside the segment defined by s1 and s2. It is assumed that the
+  // three points are aligned.
+  function pointInSegment(p, s1, s2) {
+    var kp = dotProd(pointDiff(s2, s1), pointDiff(p, s1));
+    var ks = dotProd(pointDiff(s2, s1), pointDiff(s2, s1));
+    return kp >= 0 && kp <= ks;
+  }
+
+  function pointDiff(p1, p2) {
+    return new Point(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  function dotProd(p1, p2) {
+    return p1.x * p2.x + p1.y * p2.y;
   }
 
   function solveEqSecondDegree(a, b, c) {

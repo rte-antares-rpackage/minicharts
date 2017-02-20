@@ -17967,9 +17967,13 @@ else {
 
   module.exports.Point = Point;
   module.exports.Line = Line;
-  module.exports.intersectionOfTwoLines = intersectionOfTwoLines
-  module.exports.intersectionLineAndCircle = intersectionLineAndCircle
-  module.exports.distance = distance
+  module.exports.intersectionOfTwoLines = intersectionOfTwoLines;
+  module.exports.intersectionLineAndCircle = intersectionLineAndCircle;
+  module.exports.pointInSegment = pointInSegment;
+  module.exports.intersectionLineRadius  = intersectionLineRadius ;
+  module.exports.distance = distance;
+
+  window.g = module.exports;
 
   function Point(x, y) {
     this.x = x;
@@ -17992,9 +17996,36 @@ else {
     )]
   }
 
+  function intersectionLineRadius(l1, l2, radius) {
+    var intersect = intersectionOfTwoLines(l1, l2);
+    var s1 = new Point(0, 0);
+    var s2 = new Point(radius, l2.getY(-radius));
+    if (intersect.length == 0 || !pointInSegment(intersect[0], s1, s2)) {
+      return [];
+    } else {
+      return intersect;
+    }
+  }
+
   function intersectionLineAndCircle(l, r) {
     var x = solveEqSecondDegree(l.b * l.b + 1, 2 * l.a * l.b, l.a * l.a - r * r);
     return x.map(function(x) {return new Point(x, l.getY(x))});
+  }
+
+  // Is point p inside the segment defined by s1 and s2. It is assumed that the
+  // three points are aligned.
+  function pointInSegment(p, s1, s2) {
+    var kp = dotProd(pointDiff(s2, s1), pointDiff(p, s1));
+    var ks = dotProd(pointDiff(s2, s1), pointDiff(s2, s1));
+    return kp >= 0 && kp <= ks;
+  }
+
+  function pointDiff(p1, p2) {
+    return new Point(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  function dotProd(p1, p2) {
+    return p1.x * p2.x + p1.y * p2.y;
   }
 
   function solveEqSecondDegree(a, b, c) {
@@ -18155,11 +18186,11 @@ else {
 
     // Get all intersection points
     var intersects = [];
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag1, radius));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag2, radius));
 
     // Compute distance between all these points and take the minimum
@@ -18587,9 +18618,21 @@ else {
   // Perform some generic tests on each chart type.
   QUnit.module("minicharts", function() {
     testChart("Polarchart");
-    testChart("Piechart");
-    testChart("Barchart");
 
+    testChart("Piechart");
+    // Labels on pie chart when one slice is larger than 50% (#1)
+    QUnit.test("Label displayed on pie chart with one large value", function(assert) {
+      var chart = QUnit.assert.canCreateChart("Piechart", [100, 10], {labels: "auto"});
+      var done = assert.async();
+      setTimeout(function(){
+        var labels = $(chart.el + " svg .labels-container");
+        assert.ok(labels[0].getBBox().height > 0);
+        assert.ok(labels[1].getBBox().height == 0);
+        done();
+      }, 30);
+    });
+
+    testChart("Barchart");
     // Check negative values are correctly handled by barcharts
     QUnit.test("Create barchart with negative values", function(assert) {
       var chart = QUnit.assert.canCreateChart("Barchart", [-1, 2, 3]);

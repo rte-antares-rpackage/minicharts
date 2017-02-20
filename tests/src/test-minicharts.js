@@ -13,9 +13,21 @@
   // Perform some generic tests on each chart type.
   QUnit.module("minicharts", function() {
     testChart("Polarchart");
-    testChart("Piechart");
-    testChart("Barchart");
 
+    testChart("Piechart");
+    // Labels on pie chart when one slice is larger than 50% (#1)
+    QUnit.test("Label displayed on pie chart with one large value", function(assert) {
+      var chart = QUnit.assert.canCreateChart("Piechart", [100, 10], {labels: "auto"});
+      var done = assert.async();
+      setTimeout(function(){
+        var labels = $(chart.el + " svg .labels-container");
+        assert.ok(labels[0].getBBox().height > 0);
+        assert.ok(labels[1].getBBox().height == 0);
+        done();
+      }, 30);
+    });
+
+    testChart("Barchart");
     // Check negative values are correctly handled by barcharts
     QUnit.test("Create barchart with negative values", function(assert) {
       var chart = QUnit.assert.canCreateChart("Barchart", [-1, 2, 3]);

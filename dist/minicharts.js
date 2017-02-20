@@ -17616,6 +17616,77 @@ else {
   Barchart.prototype = Object.create(Chart.prototype);
   Barchart.prototype.constructor = Barchart;
 
+  /**
+    * @class Barchart
+    * @summary Represent data with a barchart
+    * @desc Barcharts are polyvalent charts that should be used most of the time.
+    * In a barchart individual value are visually easy to compare because the
+    * human eye is good at comparing lengths. Moreover barcharts can represent
+    * negative values while polar charts can only represent positive values; 
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} BarchartOptions
+    * @memberOf Barchart
+    * @prop {number|"auto"} [minValue="auto"] Minimum value data could take. It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default `minValue` equals to 0
+    * if all data values are positive or the minimum value if some values are
+    * negative.
+    * @prop {number|"auto"} [maxValue="auto"] Maximum value data could take.It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default it equals to 0 if all
+    * values are negative or to maximmum value if some value is positive.
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in bars.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the bar.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {number}[labelPadding=2] Padding to apply to apply to labels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] bars CSS class.
+    * @prop {string}[zeroLineStyle="stroke:#333;stroke-width:1;"] CSS style of the
+    * line representing the zero value.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Barchart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Barchart
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a barchart.
+    * @instance
+    * @memberOf Barchart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {BarchartOptions} options Options controling graphical aspects of the chart.
+    */
   function Barchart(el, data, options) {
     // Default options
     var defaults = {
@@ -17642,6 +17713,7 @@ else {
     this._draw();
   }
 
+  // See comments in chart.js
   Barchart.prototype._processOptions = function(options) {
     options = Chart.prototype._processOptions.call(this, options, this._options);
 
@@ -17665,6 +17737,7 @@ else {
     return options;
   };
 
+  // See comments in chart.js
   Barchart.prototype._draw = function() {
     var self = this;
     Chart.prototype._draw.call(this);
@@ -17733,6 +17806,7 @@ else {
 
     this._drawLabels(initLabel, updateLabel);
   }
+
 }());
 
 },{"./chart.js":4,"d3":1}],4:[function(require,module,exports){
@@ -17747,10 +17821,31 @@ else {
 
   module.exports = Chart;
 
+  /*  @class Chart
+    * Abstract class inherited by other classes
+    * @param{string} el
+    * @param{number[]} data
+    * @param {object} options
+    * @param {object} defaults
+    *
+    */
   function Chart(el, data, options, defaults) {
     this._data = data;
 
     // Merge options with default options of this class and of the child class
+    /**
+    * @prop {number} [height=60] width
+    * @prop {number} [width=60] height
+    * @prop {number} [transitionTime=750] transitionTime
+    * @prop {string[]|function} [colors=d3.schemeCategory10] colors
+    * @prop {string[]|"none"|"auto"|function} [labels="none"] labels
+    * @prop {string[]|"auto"|function} [labelColors="auto"] labelColors
+    * @prop {number} [labelMinSize=8] labelMinSize
+    * @prop {number} [labelMaxSize=24] labelMaxSize
+    * @prop {number} [labelPadding=2] labelPadding
+    * @prop {labelClass} [labelClass=""]labelClass
+    * @prop {shapeClass} [shapeClass=""] shapeClass
+    */
     this._options = {
       width:60,
       height: 60,
@@ -17775,6 +17870,9 @@ else {
     this._chart = this._container.append("g");
   }
 
+  /*  Update data and options of a chart
+    *
+    */
   Chart.prototype.update = function(data, options) {
     this._data = data;
     this._options = this._processOptions(options);
@@ -17869,9 +17967,13 @@ else {
 
   module.exports.Point = Point;
   module.exports.Line = Line;
-  module.exports.intersectionOfTwoLines = intersectionOfTwoLines
-  module.exports.intersectionLineAndCircle = intersectionLineAndCircle
-  module.exports.distance = distance
+  module.exports.intersectionOfTwoLines = intersectionOfTwoLines;
+  module.exports.intersectionLineAndCircle = intersectionLineAndCircle;
+  module.exports.pointInSegment = pointInSegment;
+  module.exports.intersectionLineRadius  = intersectionLineRadius ;
+  module.exports.distance = distance;
+
+  window.g = module.exports;
 
   function Point(x, y) {
     this.x = x;
@@ -17894,9 +17996,36 @@ else {
     )]
   }
 
+  function intersectionLineRadius(l1, l2, radius) {
+    var intersect = intersectionOfTwoLines(l1, l2);
+    var s1 = new Point(0, 0);
+    var s2 = new Point(radius, l2.getY(-radius));
+    if (intersect.length == 0 || !pointInSegment(intersect[0], s1, s2)) {
+      return [];
+    } else {
+      return intersect;
+    }
+  }
+
   function intersectionLineAndCircle(l, r) {
     var x = solveEqSecondDegree(l.b * l.b + 1, 2 * l.a * l.b, l.a * l.a - r * r);
     return x.map(function(x) {return new Point(x, l.getY(x))});
+  }
+
+  // Is point p inside the segment defined by s1 and s2. It is assumed that the
+  // three points are aligned.
+  function pointInSegment(p, s1, s2) {
+    var kp = dotProd(pointDiff(s2, s1), pointDiff(p, s1));
+    var ks = dotProd(pointDiff(s2, s1), pointDiff(s2, s1));
+    return kp >= 0 && kp <= ks;
+  }
+
+  function pointDiff(p1, p2) {
+    return new Point(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  function dotProd(p1, p2) {
+    return p1.x * p2.x + p1.y * p2.y;
   }
 
   function solveEqSecondDegree(a, b, c) {
@@ -18057,11 +18186,11 @@ else {
 
     // Get all intersection points
     var intersects = [];
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag1, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag1, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag1, radius));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit1));
-    intersects = intersects.concat(g.intersectionOfTwoLines(diag2, limit2));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit1, radius));
+    intersects = intersects.concat(g.intersectionLineRadius(diag2, limit2, radius));
     intersects = intersects.concat(g.intersectionLineAndCircle(diag2, radius));
 
     // Compute distance between all these points and take the minimum
@@ -18096,6 +18225,65 @@ else {
   Piechart.prototype = Object.create(Polarchart.prototype);
   Piechart.prototype.constructor = Piechart;
 
+  /**
+    * @class Piechart
+    * @summary Represent data with a pie chart
+    * @desc A pie chart is a special case of polar chart where the data values
+    * are represented by the angle of the slices. They should only be used to
+    * compare qualitatively proportions and compositions. Indeed, human eye is
+    * not good at comparing angles so only large differences are visible.
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} PiechartOptions
+    * @memberOf Piechart
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in slices.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the slice.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] slices CSS class.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Piechart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Piechart
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a pie chart.
+    * @instance
+    * @memberOf Piechart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PiechartOptions} options Options controling graphical aspects of the chart.
+    */
   function Piechart(el, data, options) {
     Polarchart.call(this, el, data, options);
   }
@@ -18120,6 +18308,77 @@ else {
 
   Polarchart.prototype = Object.create(Chart.prototype);
   Polarchart.prototype.constructor = Polarchart;
+
+  /**
+    * @class Polarchart
+    * @summary Represent data with a polar chart
+    * @desc Polar charts are nice looking charts especially on a map,
+    * but individual values are hard to compare
+    * on these charts: the human eye is good to compare lengths, but not
+    * to compare agnles, radius or areas. Polar charts should only be used when
+    * one wants to point out qualitative results and does not need a precise
+    * representation of data. Another limitation compared to barcharts is that
+    * polar charts cannot represent negative values.
+    * @param {string} el CSS selector representing the element that will hold the chart.
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @typedef {object} PolarchartOptions
+    * @memberOf Polarchart
+    * @prop {number|"auto"} [maxValue="auto"] Maximum value data could take.It
+    * is important to set this option explicitely if one wants to compare
+    * charts and use the same scale on each one. By default it equals to the
+    * maximum value of the data.
+    * @prop {"area"|"radius"|"angle"} [type="area"] What kind of scale to use to
+    * represent the data? `angle` produces a pie chart and should be used only to visualize
+    * proportions. In other cases, `area` (the default) should generally be
+    * prefered. `radius` should only be used when one wants to magnify differences.
+    * @prop {number} [width=60] Width of the chart.
+    * @prop {number} [height=60] Height of the chart.
+    * @prop {number} [transitionTime=750] Duration of the transitions, in milliseconds.
+    * @prop {string[]|function}[colors=d3.schemeCategory10] Either an array of
+    * colors or a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value.If it is an array with length less than the length
+    * of data, then the colors are recycled.
+    * @prop {string[]|"none"|"auto"|function}[labels="none"] Labels to display in slices.
+    * It can be an array with same length as the data. It can also be a function
+    * `(d, i) -> labelText` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "none" to hide labels
+    * or "auto" to display in a compact way values.
+    * @prop {string|string[]|"auto"|function}[labelColors="auto"] Color of the labels.
+    * It can be a single value or an array with same length as the data. It can
+    * also be a function `(d, i) -> color` where `d` is a data value and `i`
+    * is the index of the value. Finally it can be equal to "auto". In this case,
+    * the most readable color is choosen depding on the color of the slice.
+    * @prop {number}[labelMinSize=8] Label minimum size in pixels. If there is
+    * not enough space for a given label, then it is hidden.
+    * @prop {number}[labelMaxSize=24] Label maximum size in pixels.
+    * @prop {string}[labelClass=""] Labels CSS class.
+    * @prop {string}[shapeClass=""] slices CSS class.
+    */
+
+  /** @method setData
+    * @desc Update the data represented by the chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    */
+
+  /** @method setOptions
+    * @desc Update the graphical options of a chart
+    * @instance
+    * @memberOf Polarchart
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
+
+  /** @method update
+    * @desc Update simulatenously data and options of a polar chart.
+    * @instance
+    * @memberOf Polarchart
+    * @param {number[]} data Data the chart has to represent.
+    * @param {PolarchartOptions} options Options controling graphical aspects of the chart.
+    */
 
   function Polarchart(el, data, options) {
     var defaults = {
