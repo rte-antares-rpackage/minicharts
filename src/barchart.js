@@ -17,7 +17,7 @@
     * @desc Barcharts are polyvalent charts that should be used most of the time.
     * In a barchart individual value are visually easy to compare because the
     * human eye is good at comparing lengths. Moreover barcharts can represent
-    * negative values while polar charts can only represent positive values; 
+    * negative values while polar charts can only represent positive values;
     * @param {string} el CSS selector representing the element that will hold the chart.
     * @param {number[]} data Data the chart has to represent.
     * @param {BarchartOptions} options Options controling graphical aspects of the chart.
@@ -173,10 +173,7 @@
     bar.exit()
       .transition()
       .duration(self._options.transitionTime)
-      .attr("x", function(d, i) {return i * barWidth + 3;})
-      .attr("y", 0)
-      .attr("width", 0)
-      .attr("height", 0)
+      .attr("d", function(d, i) {return rectPath(i * barWidth + 3, scaleFun(0), 0, 0)})
       .remove();
 
     // Add/ update labels
