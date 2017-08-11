@@ -1,3 +1,10 @@
+[![NPM](https://nodei.co/npm/minicharts.png)](https://nodei.co/npm/minicharts/)
+
+
+[![Travis Build Status](https://travis-ci.org/rte-antares-rpackage/minicharts.svg?branch=master)](https://travis-ci.org/rte-antares-rpackage/minicharts)
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/an0e7b7dnd1ai2ex?svg=true)](https://ci.appveyor.com/project/rte-antares-rpackage/minicharts)
+[![codecov](https://codecov.io/gh/rte-antares-rpackage/minicharts/branch/master/graph/badge.svg)](https://codecov.io/gh/rte-antares-rpackage/minicharts)
+
 # minicharts.js: easily add mini animated charts
 
 `minicharts.js` is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.
