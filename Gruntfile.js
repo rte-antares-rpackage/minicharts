@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       test: {
         files: {
-          "tests/test.js": ["tests/src/*.js"]
+          "test/test.js": ["test/src/*.js"]
         },
         options: {
           browserifyOptions: {
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     },
     watch: {
       source: {
-        files: ["src/**/*", "tests/**/*"],
+        files: ["src/**/*", "test/**/*"],
         tasks: ['browserify:test', "qunit:all"]
       },
       doc: {
@@ -71,12 +71,12 @@ module.exports = function(grunt) {
     mocha_phantomjs: {
       options: {
         reporter: 'xunit',
-        output: 'tests/results/result.xml',
+        output: 'test/results/result.xml',
         config: {
-          "hooks": './tests/phantom_hooks.js'
+          "hooks": 'D:/Users/franguil/Documents/R/minicharts/test/phantom_hooks.js'
         }
       },
-      all: 'tests/test.html'
+      all: 'test/test.html'
     }
   });
 
@@ -86,7 +86,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   // Default task(s).
   grunt.registerTask('build', ['browserify', 'uglify']);
