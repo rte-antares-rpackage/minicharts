@@ -1,2 +1,4 @@
 node_modules/*
-index.html
+/index.html
+/coverage
+/tests/results

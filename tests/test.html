@@ -3,14 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>Test minicharts.js</title>
-    <link rel="stylesheet" href="lib/qunit-2.1.1.css">
+    <link rel="stylesheet" href="lib/mocha.css">
   </head>
   <body>
     <div id="test-area" style="margin:20px 0;"></div>
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
+    <div id="mocha"></div>
     <script src="lib/jquery-3.1.1.min.js"></script>
-    <script src="lib/qunit-2.1.1.js"></script>
+    <script src="lib/mocha.js"></script>
+    <script>
+      mocha.ui('bdd');
+    </script>
     <script src="test.js"></script>
+    <script>
+      mocha.run()
+    </script>
   </body>
 </html>

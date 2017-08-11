@@ -19,6 +19,12 @@ module.exports = function(grunt) {
       test: {
         files: {
           "tests/test.js": ["tests/src/*.js"]
+        },
+        options: {
+          browserifyOptions: {
+            transform: [["browserify-istanbul", {ignore:["**/lib/**"]}]],
+            debug: true
+          }
         }
       }
     },
@@ -62,8 +68,15 @@ module.exports = function(grunt) {
         tasks: ['jsdoc', "copy:doc"]
       }
     },
-    qunit: {
-      all: ["tests/*.html"]
+    mocha_phantomjs: {
+      options: {
+        reporter: 'xunit',
+        output: 'tests/results/result.xml',
+        config: {
+          "hooks": './tests/phantom_hooks.js'
+        }
+      },
+      all: 'tests/test.html'
     }
   });
 
@@ -74,8 +87,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-mocha-phantomjs');
   // Default task(s).
-  grunt.registerTask('build', ['browserify', 'uglify', "qunit:all"]);
+  grunt.registerTask('build', ['browserify', 'uglify']);
+  grunt.registerTask("build-test", ['browserify:test']);
   grunt.registerTask('doc', ['jsdoc', "copy:doc"]);
   grunt.registerTask('default', ['watch:source']);
 
