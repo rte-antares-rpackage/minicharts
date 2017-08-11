@@ -140,7 +140,7 @@
       }, 30);
     });
 
-    it( "Display labels", function(done) {
+    it( "Displays labels", function(done) {
       var opts = {
         labels: "auto"
       }
@@ -158,67 +158,61 @@
       }, 30);
     });
 
-    // QUnit.test( "Custom labels", function( assert ) {
-    //   var self = this;
-    //   var opts = {
-    //     labels: ["a", "b", "c"]
-    //   }
-    //
-    //   var chart = QUnit.assert.canCreateChart(type, this.data, opts);
-    //
-    //   var done = assert.async();
-    //   setTimeout(function(){
-    //     assert.shapesAreVisible(chart.el);
-    //     var labels = $(chart.el + " svg .label text");
-    //     assert.equal(labels.length, self.data.length);
-    //     for (var i = 0; i < labels.length; i++) {
-    //       assert.equal(labels[i].textContent, opts.labels[i]);
-    //     }
-    //     done();
-    //   }, 30);
-    // });
-    //
-    // QUnit.test( "Update data", function( assert ) {
-    //   var self = this;
-    //   var opts = {
-    //     labels: "auto"
-    //   }
-    //
-    //   var chart = QUnit.assert.canCreateChart(type, this.data, opts);
-    //   self.data = [3,2,1];
-    //   chart.setData(self.data);
-    //
-    //   var done = assert.async();
-    //   setTimeout(function(){
-    //     assert.shapesAreVisible(chart.el);
-    //     var labels = $(chart.el + " svg .label text");
-    //     assert.equal(labels.length, self.data.length);
-    //     for (var i = 0; i < labels.length; i++) {
-    //       assert.equal(labels[i].textContent, self.data[i]);
-    //     }
-    //     done();
-    //   }, 30);
-    // });
-    //
-    // QUnit.test( "Update options", function( assert ) {
-    //   var self = this;
-    //   var opts = {
-    //     colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
-    //   }
-    //
-    //   var chart = QUnit.assert.canCreateChart(type, this.data, {transitionTime: 10});
-    //   chart.setOptions(opts);
-    //
-    //   var done = assert.async();
-    //   setTimeout(function(){
-    //     var shapes = assert.shapesAreVisible(chart.el);
-    //     assert.equal(shapes.length, self.data.length);
-    //     for (var i = 0; i < shapes.length; i++) {
-    //       assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
-    //     }
-    //     done();
-    //   }, 60);
-    // });
+    it( "Displays custom labels", function(done) {
+      var opts = {
+        labels: ["a", "b", "c"]
+      }
+
+      var chart = canCreateChart(type, data, opts);
+
+      setTimeout(function(){
+        shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
+        assert.equal(labels.length, data.length);
+        for (var i = 0; i < labels.length; i++) {
+          assert.equal(labels[i].textContent, opts.labels[i]);
+        }
+        done();
+      }, 30);
+    });
+
+    it( "Updates data", function(done) {
+      var opts = {
+        labels: "auto"
+      }
+
+      var chart = canCreateChart(type, data, opts);
+      var newdata = [3,2,1];
+      chart.setData(newdata);
+
+      setTimeout(function(){
+        shapesAreVisible(chart.el);
+        var labels = $(chart.el + " svg .label text");
+        assert.equal(labels.length, newdata.length);
+        for (var i = 0; i < labels.length; i++) {
+          assert.equal(labels[i].textContent, newdata[i]);
+        }
+        done();
+      }, 30);
+    });
+
+    it( "Updates options", function(done) {
+      var opts = {
+        colors: ["rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"]
+      }
+
+      var chart = canCreateChart(type, data, {transitionTime: 10});
+      chart.setOptions(opts);
+
+      setTimeout(function(){
+        var shapes = shapesAreVisible(chart.el);
+        assert.equal(shapes.length, data.length);
+        for (var i = 0; i < shapes.length; i++) {
+          assert.equal(shapes[i].attributes.fill.value, opts.colors[i]);
+        }
+        done();
+      }, 60);
+    });
   }
 
 }());

@@ -61,7 +61,7 @@ module.exports = function(grunt) {
     watch: {
       source: {
         files: ["src/**/*", "test/**/*"],
-        tasks: ['browserify:test', "qunit:all"]
+        tasks: ['browserify:test', "test"]
       },
       doc: {
         files: ["src/*", "README.md", "template/*", "examples/**"],
@@ -70,10 +70,10 @@ module.exports = function(grunt) {
     },
     mocha_phantomjs: {
       options: {
-        reporter: 'xunit',
-        output: 'test/results/result.xml',
+        // reporter: 'xunit',
+        // output: 'test/results/result.xml',
         config: {
-          "hooks": 'D:/Users/franguil/Documents/R/minicharts/test/phantom_hooks.js'
+          // "hooks": './test/phantom_hooks.js'
         }
       },
       all: 'test/test.html'
@@ -90,6 +90,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('build', ['browserify', 'uglify']);
   grunt.registerTask("build-test", ['browserify:test']);
+  grunt.registerTask("test", ["build-test", "mocha_phantomjs"])
   grunt.registerTask('doc', ['jsdoc', "copy:doc"]);
   grunt.registerTask('default', ['watch:source']);
 
