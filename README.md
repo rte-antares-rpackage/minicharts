@@ -10,35 +10,6 @@
 `minicharts.js` is a javascript library to add easily compact animated charts in an html page. This can be especially usefull when you want to include many similar charts in a limited space like a table, a map or a complex chart.
 
 ![](img/example.gif)
-<div id="mychart">
-</div>
-<script src="minicharts.min.js"></script>
-<script>
-// Remove image
-var images = document.getElementsByTagName("img");
-for (var i = 0; i < images.length; i++) {
-  if (images[i].src.indexOf("img/example.gif") != -1) {
-    images[i].parentNode.removeChild(images[i]);
-    break;
-  }
-}
-
-var opts = {
-  width:360,
-  height:120,
-  labels: "auto",
-  maxValue: 100
-};
-
-function fakeData(n) {
-  var res = [];
-  for (var i = 0; i < n; i++) res.push(Math.random() * 100);
-  return res;
-}
-
-var mychart = new minicharts.Barchart("#mychart", fakeData(6), opts);
-setInterval(function(){mychart.setData(fakeData(6))}, 1000);
-</script>
 
 The full documentation is available [here](https://rte-antares-rpackage.github.io/minicharts/index.html).
 You can also test the library on [JsFiddle](https://jsfiddle.net/fguillem/paar6yeg/).
